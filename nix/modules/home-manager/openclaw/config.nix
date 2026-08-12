@@ -112,6 +112,7 @@ let
               name = "openclaw-gateway-src";
             };
             pnpmDepsHash = inst.gatewayPnpmDepsHash;
+            nodejs_26 = import ../../../lib/nodejs-wal-safe.nix { inherit pkgs; };
           }
         else
           inst.package;

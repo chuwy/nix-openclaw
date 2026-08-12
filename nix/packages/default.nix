@@ -8,11 +8,13 @@
 }:
 let
   isDarwin = pkgs.stdenv.hostPlatform.isDarwin;
-  pnpm_11 = pkgs.callPackage ./pnpm-11.nix { };
+  nodejsWalSafe = import ../lib/nodejs-wal-safe.nix { inherit pkgs; };
+  pnpm_11 = pkgs.callPackage ./pnpm-11.nix { nodejs_26 = nodejsWalSafe; };
   pnpmForOpenClaw = if toString (sourceInfo.pnpmMajor or "10") == "11" then pnpm_11 else pkgs.pnpm_10;
   toolPkgs = openclawToolPkgs // {
     pnpm = pnpmForOpenClaw;
     inherit pnpm_11;
+    nodejs_26 = nodejsWalSafe;
   };
   toolSets = import ../tools/extended.nix {
     pkgs = pkgs;
@@ -22,15 +24,18 @@ let
   runtimePluginLocks = import ../generated/openclaw-runtime-plugins;
   buildBundledRuntimePlugin = pkgs.callPackage ../lib/openclaw-runtime-plugin.nix {
     linkOpenClawPeer = false;
+    nodejs_26 = nodejsWalSafe;
   };
   bundledAcpx = buildBundledRuntimePlugin runtimePluginLocks.acpx;
   openclawGateway = pkgs.callPackage ./openclaw-gateway.nix {
     inherit sourceInfo;
     inherit pnpm_11;
     inherit bundledAcpx;
+    nodejs_26 = nodejsWalSafe;
   };
   buildOpenClawRuntimePlugin = pkgs.callPackage ../lib/openclaw-runtime-plugin.nix {
     openclawPackage = openclawGateway;
+    nodejs_26 = nodejsWalSafe;
   };
   openclawRuntimePlugins = pkgs.lib.mapAttrs (
     _name: lock: buildOpenClawRuntimePlugin lock

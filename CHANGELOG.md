@@ -13,11 +13,19 @@ Older repository history is available in git.
 ### Changed
 
 - Switched the packaged Node.js runtime from `nodejs_22` (22.23.2) to
-  `nodejs_26` (26.5.0). Node 22.23.2 embeds SQLite 3.51.2, which is affected
-  by the upstream WAL-reset database corruption bug; upstream OpenClaw requires
-  Node `>=22.22.3 <23 || >=24.15.0 <25 || >=25.9.0`, and Node 25 is end-of-life
-  and removed from nixpkgs. The extended tool set now exposes `nodejs_26`
-  instead of `nodejs_22`.
+  `nodejs_26`. Node 22.23.2 embeds SQLite 3.51.2, which is affected by the
+  upstream WAL-reset database corruption bug; upstream OpenClaw requires Node
+  `>=22.22.3 <23 || >=24.15.0 <25 || >=25.9.0`, and Node 25 is end-of-life and
+  removed from nixpkgs. The extended tool set now exposes `nodejs_26` instead
+  of `nodejs_22`.
+- Pinned a WAL-reset-safe SQLite for the packaged Node.js runtime
+  (`nix/lib/nodejs-wal-safe.nix`). nixpkgs builds Node >=22.5 with
+  `--shared-sqlite`, so the SQLite version OpenClaw checks at runtime is the
+  nixpkgs `sqlite` version, not Node's bundled one. When the incoming nixpkgs
+  ships an affected SQLite (3.51.x before 3.51.3), nix-openclaw now rebuilds
+  `nodejs_26` against a pinned safe SQLite instead of failing OpenClaw's
+  runtime WAL check. Safe nixpkgs pins keep using the cached Node binary
+  unchanged.
 
 ## 2026-06-06
 

@@ -70,6 +70,7 @@
           openclawToolPkgs = openclawToolPkgs;
           inherit qmdPackage;
         };
+        nodejsWalSafe = import ./nix/lib/nodejs-wal-safe.nix { inherit pkgs; };
         runtimePluginPackageOutputs = pkgs.lib.mapAttrs' (
           id: package: pkgs.lib.nameValuePair "openclaw-runtime-plugin-${id}" package
         ) packageSetStable.openclawRuntimePlugins;
@@ -101,26 +102,32 @@
               };
               package-contents = pkgs.callPackage ./nix/checks/openclaw-package-contents.nix {
                 openclawGateway = packageSetStable.openclaw-gateway;
+                nodejs_26 = nodejsWalSafe;
               };
               default-instance = pkgs.callPackage ./nix/checks/openclaw-default-instance.nix {
                 includeQmdChecks = false;
+                nodejs_26 = nodejsWalSafe;
               };
               source-override-render = pkgs.callPackage ./nix/checks/openclaw-default-instance.nix {
                 includeSourceOverrideChecks = true;
+                nodejs_26 = nodejsWalSafe;
               };
               workspace-materializer = pkgs.callPackage ./nix/checks/openclaw-workspace-materializer.nix { };
               config-validity = pkgs.callPackage ./nix/checks/openclaw-config-validity.nix {
                 openclawGateway = packageSetStable.openclaw-gateway;
                 includeRuntimePluginSmoke = false;
+                nodejs_26 = nodejsWalSafe;
               };
               gateway-smoke = pkgs.callPackage ./nix/checks/openclaw-gateway-smoke.nix {
                 openclawGateway = packageSetStable.openclaw-gateway;
                 includeRuntimePluginSmoke = false;
+                nodejs_26 = nodejsWalSafe;
               };
             };
             qmdChecks = {
               qmd-instance = pkgs.callPackage ./nix/checks/openclaw-default-instance.nix {
                 includeQmdChecks = true;
+                nodejs_26 = nodejsWalSafe;
               };
               qmd-runtime = pkgs.callPackage ./nix/checks/openclaw-qmd-runtime.nix {
                 openclawPackage = packageSetStable.openclaw;
@@ -130,18 +137,23 @@
             pluginChecks = {
               plugin-instance = pkgs.callPackage ./nix/checks/openclaw-default-instance.nix {
                 includePluginChecks = true;
+                nodejs_26 = nodejsWalSafe;
               };
             };
             runtimePluginChecks = {
               runtime-plugin-config-validity = pkgs.callPackage ./nix/checks/openclaw-config-validity.nix {
                 openclawGateway = packageSetStable.openclaw-gateway;
                 includeRuntimePluginSmoke = true;
+                nodejs_26 = nodejsWalSafe;
               };
               runtime-plugin-gateway-smoke = pkgs.callPackage ./nix/checks/openclaw-gateway-smoke.nix {
                 openclawGateway = packageSetStable.openclaw-gateway;
                 includeRuntimePluginSmoke = true;
+                nodejs_26 = nodejsWalSafe;
               };
-              runtime-plugin-locks = pkgs.callPackage ./nix/checks/openclaw-runtime-plugin-locks.nix { };
+              runtime-plugin-locks = pkgs.callPackage ./nix/checks/openclaw-runtime-plugin-locks.nix {
+                nodejs_26 = nodejsWalSafe;
+              };
               runtime-plugin-packages = pkgs.symlinkJoin {
                 name = "openclaw-runtime-plugin-packages";
                 paths = builtins.attrValues packageSetStable.openclawRuntimePlugins;
