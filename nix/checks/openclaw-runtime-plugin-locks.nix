@@ -1,7 +1,7 @@
 {
   lib,
   stdenvNoCC,
-  nodejs_22,
+  nodejs_24,
 }:
 
 let
@@ -17,7 +17,7 @@ stdenvNoCC.mkDerivation {
   dontConfigure = true;
   dontBuild = true;
 
-  nativeBuildInputs = [ nodejs_22 ];
+  nativeBuildInputs = [ nodejs_24 ];
 
   env = {
     OPENCLAW_RUNTIME_PLUGIN_LOCK_DIR = "${../generated/openclaw-runtime-plugins}";
@@ -27,8 +27,8 @@ stdenvNoCC.mkDerivation {
 
   doCheck = true;
   checkPhase = ''
-    ${nodejs_22}/bin/node --test ${scriptsDir}/openclaw-runtime-plugin-version.test.mjs
-    ${nodejs_22}/bin/node ${scriptsDir}/check-openclaw-runtime-plugin-locks.mjs
+    ${nodejs_24}/bin/node --test ${scriptsDir}/openclaw-runtime-plugin-version.test.mjs
+    ${nodejs_24}/bin/node ${scriptsDir}/check-openclaw-runtime-plugin-locks.mjs
   '';
   installPhase = "${../scripts/empty-install.sh}";
 
