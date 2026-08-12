@@ -25,7 +25,7 @@ let
   ensure = names: safe (map pick names);
 
   baseNames = [
-    "nodejs_24"
+    "nodejs_26"
     "pnpm"
     "git"
     "curl"

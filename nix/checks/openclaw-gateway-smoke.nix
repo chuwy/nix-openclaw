@@ -2,7 +2,7 @@
   lib,
   pkgs,
   stdenv,
-  nodejs_24,
+  nodejs_26,
   openclawGateway,
   includeRuntimePluginSmoke ? false,
 }:
@@ -19,7 +19,7 @@ stdenv.mkDerivation {
   dontConfigure = true;
   dontBuild = true;
 
-  nativeBuildInputs = [ nodejs_24 ];
+  nativeBuildInputs = [ nodejs_26 ];
 
   env = {
     OPENCLAW_GATEWAY = openclawGateway;
@@ -32,6 +32,6 @@ stdenv.mkDerivation {
   __darwinAllowLocalNetworking = true;
 
   doCheck = true;
-  checkPhase = "${nodejs_24}/bin/node ${../scripts/gateway-smoke.mjs}";
+  checkPhase = "${nodejs_26}/bin/node ${../scripts/gateway-smoke.mjs}";
   installPhase = "${../scripts/empty-install.sh}";
 }

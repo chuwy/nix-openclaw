@@ -2,7 +2,7 @@
   lib,
   stdenv,
   buildNpmPackage,
-  nodejs_24,
+  nodejs_26,
   makeWrapper,
   sourceInfo,
   bundledAcpx,
@@ -10,7 +10,7 @@
 
 let
   buildNpmPackageForOpenClaw = buildNpmPackage.override {
-    nodejs = nodejs_24;
+    nodejs = nodejs_26;
   };
   wrapperSrc = ../npm/openclaw;
   lock = builtins.fromJSON (builtins.readFile "${wrapperSrc}/package-lock.json");
@@ -42,7 +42,7 @@ buildNpmPackageForOpenClaw {
   nativeBuildInputs = [ makeWrapper ];
 
   env = {
-    NODE_BIN = "${nodejs_24}/bin/node";
+    NODE_BIN = "${nodejs_26}/bin/node";
     OPENCLAW_BUNDLED_ACPX = "${bundledAcpx}";
     OPENCLAW_NPM_PACKAGE_ROOT = "node_modules/openclaw";
     OPENCLAW_PATCH_NPM_DIST_SCRIPT = "${../scripts/patch-openclaw-npm-dist.mjs}";

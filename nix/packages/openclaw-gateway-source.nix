@@ -3,7 +3,7 @@
   stdenv,
   fetchFromGitHub,
   fetchurl,
-  nodejs_24,
+  nodejs_26,
   pnpm_10,
   pnpm_11,
   fetchPnpmDeps,
@@ -32,7 +32,7 @@ let
           stdenv
           fetchFromGitHub
           fetchurl
-          nodejs_24
+          nodejs_26
           pnpm_10
           pnpm_11
           fetchPnpmDeps
@@ -57,7 +57,7 @@ let
         ];
         extraBuildInputs = [ vips ];
         extraEnv = {
-          NODE_BIN = "${nodejs_24}/bin/node";
+          NODE_BIN = "${nodejs_26}/bin/node";
           PATCH_CLIPBOARD_SH = "${../scripts/patch-clipboard.sh}";
           PATCH_CLIPBOARD_WRAPPER = "${../scripts/clipboard-wrapper.cjs}";
         };

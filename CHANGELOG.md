@@ -13,10 +13,11 @@ Older repository history is available in git.
 ### Changed
 
 - Switched the packaged Node.js runtime from `nodejs_22` (22.23.2) to
-  `nodejs_24` (24.18.0). Node 22.23.2 embeds SQLite 3.51.2, which is affected
+  `nodejs_26` (26.5.0). Node 22.23.2 embeds SQLite 3.51.2, which is affected
   by the upstream WAL-reset database corruption bug; upstream OpenClaw requires
-  Node `>=22.22.3 <23 || >=24.15.0 <25 || >=25.9.0`. The extended tool set now
-  exposes `nodejs_24` instead of `nodejs_22`.
+  Node `>=22.22.3 <23 || >=24.15.0 <25 || >=25.9.0`, and Node 25 is end-of-life
+  and removed from nixpkgs. The extended tool set now exposes `nodejs_26`
+  instead of `nodejs_22`.
 
 ## 2026-06-06
 

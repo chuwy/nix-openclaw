@@ -2,7 +2,7 @@
   lib,
   pkgs,
   stdenv,
-  nodejs_24,
+  nodejs_26,
   openclawGateway,
   includeRuntimePluginSmoke ? false,
 }:
@@ -130,7 +130,7 @@ stdenv.mkDerivation {
   dontBuild = true;
 
   nativeBuildInputs = [
-    nodejs_24
+    nodejs_26
   ]
   ++ lib.optional includeRuntimePluginSmoke pkgs.openclawRuntimePlugins.${runtimePluginSmokeId};
 
@@ -144,6 +144,6 @@ stdenv.mkDerivation {
   };
 
   doCheck = true;
-  checkPhase = "${nodejs_24}/bin/node ${../scripts/check-config-validity.mjs}";
+  checkPhase = "${nodejs_26}/bin/node ${../scripts/check-config-validity.mjs}";
   installPhase = "${../scripts/empty-install.sh}";
 }
